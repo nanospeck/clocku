@@ -1,12 +1,15 @@
 <!DOCTYPE html>
 <html>
    <body>
-      <canvas id="canvas" width="400" height="400" style="background-color:#333"></canvas> 
-      <canvas id="piechart" width="200" height="200"></canvas>
+      <canvas id="canvas" width="600" height="600" style="background-color:#333"></canvas>
+<!--      <canvas id="piechart" width="200" height="200"></canvas>-->
       <script>
          var canvas = document.getElementById("canvas");
          var ctx = canvas.getContext("2d");
-         var radius = canvas.height / 2;     
+         var radius = canvas.height / 2;
+         console.log("radius ref 1:"+ radius*0.90);
+         console.log("canvas height ref 1:"+ canvas.height);
+         console.log("canvas width ref 1:"+ canvas.width);
          ctx.translate(radius, radius);
          radius = radius * 0.90
          //drawClock();
@@ -15,19 +18,12 @@
          function drawClock() {
              drawFace(ctx, radius);
              drawNumbers(ctx, radius);
-             drawTime(ctx, radius);
+             drawTime(ctx, radius, canvas);
          }
-        
-          function drawClockCenter(){
-                canvas = document.getElementById("canvas");
-                ctx = canvas.getContext("2d");
-                radius = canvas.height / 2;     
-                ctx.translate(radius, radius);
-                radius = radius * 0.90
-          }
-         function drawFace(ctx, radius) {
+
+    function drawFace(ctx, radius) {
              var grad;
-         
+             console.log("radius ref drawFace:"+ radius);
              ctx.beginPath();
              ctx.arc(0, 0, radius, 0, 2*Math.PI);
              ctx.fillStyle = 'white';
@@ -47,6 +43,7 @@
              ctx.fill();
          }
              function drawNumbers(ctx, radius) {
+             console.log("radius ref drawNumbers:"+ radius*0.90);
              var ang;
              var num;
              ctx.font = radius*0.15 + "px arial";
@@ -64,12 +61,14 @@
                  ctx.rotate(-ang);
              }
          }
-             function drawTime(ctx, radius){
+             function drawTime(ctx, radius, canvas){
                   // pie
              // 15 mins = pos 1.5 , 30 mins= 3pos, 60 mins = 6 pos
                   for (var i = 0; i < data.length; i++) {
                     drawSegment(canvas, ctx, i);
                 }
+                  console.log("radius ref drawTime:"+ radius*0.90);
+
              //drawFace(ctx, radius);
                  //drawClockCenter();
                  drawNumbers(ctx, radius);
@@ -105,7 +104,7 @@
          }
             var inside =true;
          
- //phase 2
+         //phase 2
          var data = [120, 50, 100,90];
          var labels = ["Code", "Tea-Break", "AppScan",  "Meeting"];
          var colors = ["#FFDAB9", "#E6E6FA", "#E0FFFF", "#B0FFFF"];
@@ -120,8 +119,10 @@
               var centerX = 0;
               var centerY = 0;
          }
-         radius = Math.floor(canvas.width / 2);
-         
+         //radius = Math.floor(canvas.width / 2);
+         console.log("radius ref 2:"+ radius);
+         console.log("canvas height ref 2:"+ canvas.height);
+         console.log("canvas width ref 2:"+ canvas.width);
          var startingAngle = degreesToRadians(sumTo(data, i));
          var arcSize = degreesToRadians(data[i]);
          var endingAngle = startingAngle + arcSize;
@@ -134,9 +135,7 @@
          context.globalAlpha=0.5; 
          context.fillStyle = colors[i];
          context.fill();
-         
          context.restore();
-         
          drawSegmentLabel(canvas, context, i);
          }
                function degreesToRadians(degrees) {
@@ -149,7 +148,8 @@
          }
          return sum;
          }
-               function drawSegmentLabel(canvas, context, i) {
+      
+        function drawSegmentLabel(canvas, context, i) {
          context.save();
           if(!inside){
              var x = Math.floor(canvas.width / 2);
@@ -159,18 +159,14 @@
               var y = 0;
          }
          var angle = degreesToRadians(sumTo(data, i));
-         
          context.translate(x, y);
          context.rotate(angle);
          var dx = Math.floor(canvas.width * 0.5) - 50;
          var dy = Math.floor(canvas.height * 0.05);
-         
          context.textAlign = "right";
          var fontSize = Math.floor(canvas.height / 25);
          context.font = fontSize + "pt Helvetica";
-         
          context.fillText(labels[i], dx, dy);
-         
          context.restore();
          }
         if(!inside){
