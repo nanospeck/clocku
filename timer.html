@@ -3,6 +3,13 @@
 <body>
 
 <canvas id="canvas" width="400" height="400" style="background-color:#333"></canvas>
+<div class="add-info"> <span class="rightfloat">
+<span id="hour"></span>
+<span id="mins"></span>
+</span>
+</span>
+</div>
+
 
 <script>
 var canvas = document.getElementById("canvas");
@@ -61,7 +68,7 @@ function drawTime(ctx, radius){
     for (var i = 0; i < data.length; i++) {
         drawSegment(canvas, ctx, i);
     }
-
+    
     // draw time on top of the pie chart
     var now = new Date();
     var hour = now.getHours();
@@ -83,7 +90,7 @@ function drawTime(ctx, radius){
     second=(second*Math.PI/30);
     console.log("second :" + second);
     drawHand(ctx, second, radius*0.9, radius*0.02);
-
+    
 }
 
 function drawHand(ctx, pos, length, width) {
@@ -109,6 +116,7 @@ function drawSegment(canvas, context, i) {
     var centerX = 0;
     var centerY = 0;
     var startingAngle = degreesToRadians(sumTo(data, i));
+    
     console.log("sum to :"+ sumTo(data, i));
     var arcSize = degreesToRadians(data[i]);
     var endingAngle = startingAngle + arcSize;
@@ -144,7 +152,7 @@ function drawPastShadow(canvas, context, pos) {
     context.fillStyle = 'grey';
     context.fill();
     context.restore();
-
+    
 }
 function degreesToRadians(degrees) {
     return (degrees * Math.PI)/180;
@@ -174,8 +182,19 @@ function drawSegmentLabel(canvas, context, i) {
 }
 function textParserToMinutes(string) {
     var _temp = string.split(",");
-    console.log(")
+    console.log("")
 }
+
+var string = "6am,20m workout,10m coding,20m prayer,10m idle"
+var _temp = string.split(",");
+
+var hour = _temp[0];
+var minute = [];
+for (var i = 1; i < _temp.length - 1; i++) {
+    minute[i - 1] = _temp[i];
+}
+document.getElementById('mins').innerHTML = minute;
+document.getElementById('hour').innerHTML = hour;
 
 </script>
 </body>
