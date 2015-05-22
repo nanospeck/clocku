@@ -4,7 +4,7 @@
 
 <canvas id="canvas" width="400" height="400" style="background-color:#333"></canvas>
 <div class="add-info"> <span class="rightfloat">
-<span id="hour"></span>
+<span id="hour"></span><br>
 <span id="mins"></span>
 </span>
 </span>
@@ -72,10 +72,12 @@ function drawTime(ctx, radius){
     // draw time on top of the pie chart
     var now = new Date();
     var hour = now.getHours();
+    var hour24 = now.getHours();
     var minute = now.getMinutes();
     var second = now.getSeconds();
     
     //hour
+    console.log("hour :" + hour);
     hour=hour%12;
     hour=(hour*Math.PI/6)+(minute*Math.PI/(6*60))+(second*Math.PI/(360*60));
     console.log("hour :" + hour);
@@ -190,6 +192,9 @@ var _temp = string.split(",");
 
 var hour = _temp[0];
 var minute = [];
+//create key value pari-store hour as key and minute as value (which is a k,v pair of duration and task) in  a pair
+//get the value from map by key as present hour
+// convert the value in map to pie
 for (var i = 1; i < _temp.length - 1; i++) {
     minute[i - 1] = _temp[i];
 }
