@@ -2,9 +2,9 @@
 <html>
 <body>
 <div style="float:left">
-<strong>My Schedule</strong><br>
-<textarea>16pm,20m workout,10m coding,20m prayer,10m idle</textarea>
-</div><br>
+    <strong>My Schedule</strong><br>
+    <textarea id="schedule"></textarea>
+    </div><br>
 <canvas id="canvas" width="400" height="400" style="background-color:#333"></canvas>
 <div class="add-info"> <span class="rightfloat">
 <span id="hour"></span>
@@ -15,8 +15,8 @@
 
 
 <script>
-//blinking at end
-// integrate with outlook
+    //blinking at end 
+    // integrate with outlook
 var canvas = document.getElementById("canvas");
 var ctx = canvas.getContext("2d");
 var radius = canvas.height / 2;
@@ -108,11 +108,12 @@ function drawHand(ctx, pos, length, width) {
     ctx.rotate(-pos);
 }
 //phase 2
-var string = "6am,20m workout,10m coding,20m prayer,10m idle"
+var string = "6am,20m workout,10m coding,20m prayer,10m idle";
 var data = [120, 50, 100,90];
 var labels = ["Workout", "Get fresh", "Dress",  "Breakfast"];
 var colors = ["#FFDAB9", "#E6E6FA", "#E0FFFF", "#B0FFFF"];
 function drawSegment(canvas, context, i) {
+    console.log("text "+document.getElementById('schedule').innerHTML);
     context.save();
     var centerX = 0;
     var centerY = 0;
@@ -184,97 +185,96 @@ function textParserToMinutes(string) {
     var _temp = string.split(",");
     console.log("")
 }
-
+    
 function testTextParser(){
-    var minutesActivityList = new Array();
-    var activity = new Map();
-    var activity1 = new Map();
-    var activity2 = new Map();
-    // setting the values
+var minutesActivityList = new Array();
+var activity = new Map();
+var activity1 = new Map();
+var activity2 = new Map();
+// setting the values
     //activity1.set("30", "hello1");
     //activity2.set("30", "hello2");
-    minutesActivityList.push(activity1);
-    minutesActivityList.push(activity2);
+minutesActivityList.push(activity1);
+minutesActivityList.push(activity2);    
     
-    var string = "16am,20m workout,10m coding,20m prayer,10m idle"
-    var _temp = string.split(",");
-    var hour = _temp[0].match(/\d+/)[0];
-    var minute = [];
-    for (var i = 1; i < _temp.length ; i++) {
-        activity = new Map();
-        activity.set(_temp[i].match(/\d+/)[0],_temp[i].split(" ")[1]);
-        minutesActivityList.push(activity);
-        //minute[i - 1] = _temp[i].match(/\d+/)[0];
+var string = "11am,20m workout,10m coding,20m prayer,10m idle"
+var _temp = string.split(",");
+var hour = _temp[0].match(/\d+/)[0];
+var minute = [];
+for (var i = 1; i < _temp.length ; i++) {
+    activity = new Map();
+    activity.set(_temp[i].match(/\d+/)[0],_temp[i].split(" ")[1]);
+    minutesActivityList.push(activity);
+                 //minute[i - 1] = _temp[i].match(/\d+/)[0];
+}
+ 
+document.getElementById('mins').innerHTML = minute;
+document.getElementById('hour').innerHTML = hour;
+    
+
+
+var hourActivityMap = new Map();    
+hourActivityMap.set(4,minutesActivityList);    
+hourActivityMap.set(6,minutesActivityList);
+hourActivityMap.set(5,minutesActivityList);
+hourActivityMap.set(parseInt(hour),minutesActivityList);
+
+    
+var curr_now = new Date();
+var curr_hour = curr_now.getHours();    
+var minutesActivityListResult = hourActivityMap.get(curr_hour);
+data = new Array();
+labels = new Array();
+for(var minuteActivity in minutesActivityListResult)
+{
+    var activityMapResult = minutesActivityListResult[minuteActivity];
+     
+    function logMapElements(value, key, map) {
+    console.log("m[" + key + "] = " + value);
+    data.push(key*6);
+    labels.push(value);
     }
-    
-    document.getElementById('mins').innerHTML = minute;
-    document.getElementById('hour').innerHTML = hour;
-    
-    
-    
-    var hourActivityMap = new Map();
-    hourActivityMap.set(4,minutesActivityList);
-    hourActivityMap.set(6,minutesActivityList);
-    hourActivityMap.set(5,minutesActivityList);
-    hourActivityMap.set(parseInt(hour),minutesActivityList);
-    
-    
-    var curr_now = new Date();
-    var curr_hour = curr_now.getHours();
-    var minutesActivityListResult = hourActivityMap.get(curr_hour);
-    data = new Array();
-    labels = new Array();
-    for(var minuteActivity in minutesActivityListResult)
-    {
-        var activityMapResult = minutesActivityListResult[minuteActivity];
+     activityMapResult.forEach(logMapElements);
+    console.log("data = " + data);
         
-        function logMapElements(value, key, map) {
-            console.log("m[" + key + "] = " + value);
-            data.push(key*6);
-            labels.push(value);
-        }
-        activityMapResult.forEach(logMapElements);
-        console.log("data 2 = " + data);
-        
-    }
+}
     
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
 </script>
 </body>
-</html> 
-
+</html>
